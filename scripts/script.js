@@ -1,16 +1,24 @@
-var myLists = [];
+var myLists = {};
 var oList = document.getElementById('lists');
+var del = document.createElement('a');
+del.appendChild(document.createTextNode('Delete'));
+del.setAttribute('href','Javascript:void(0)');
+del.onclick = function() {
+    //var deletedData = del.previousSibling.previousSibling
+};
 console.log(myLists);
 window.onload = function () {
     var mainBody = document.getElementById('main-body');
     console.log(myLists);
     if (localStorage.myLists) {
-        console.log('vfjvf');
         myLists = JSON.parse(localStorage.myLists);
         let listItemObj;
         let list;
-        for (let i=0; i<myLists.length; i++) {
-            makeListItem(myLists[i]);
+        let i;
+        console.log(myLists);
+        for (i in myLists) {
+            makeListItem(i,myLists[i]);
+            //console.log(i+' '+myLists[i]);
         }
     }
     else {
@@ -22,7 +30,6 @@ window.onload = function () {
     }
     mainBody.appendChild(document.createElement('br'));
     mainBody.appendChild(document.createTextNode('New task: '));
-    console.log('djvbhffdv');
     var input = document.createElement('input');
     input.setAttribute('type','text');
     let button = document.createElement('input');
@@ -41,28 +48,50 @@ function addList(list) {
     if (!localStorage.myLists) {
         document.getElementById('main-body').removeChild(document.getElementById('paragraph'));
     }
-    myLists.push(list);
-    makeListItem(list);
+    if (myLists[list] === undefined || myLists[list] === false)
+        makeListItem(list,false);
+    else
+        makeListItem(list, true)
     localStorage.myLists = JSON.stringify(myLists);
 }
 
-function makeListItem(text) {
+function makeListItem(text, isChecked) {
+    myLists[text] = isChecked;
     text = document.createTextNode(text);
+    var par = document.createElement('p');
+    par.setAttribute('style','display: inline;');
+    par.appendChild(text);
     let listItemObj = document.createElement('li');
     //let link = document.createElement('a');
     //link.setAttribute('href','#');
     //link.appendChild(text);
-    listItemObj.appendChild(text);
+    listItemObj.appendChild(par);
     let checkbox = document.createElement('input');
     checkbox.setAttribute('type','checkbox')
+    checkbox.checked = isChecked;
+
     checkbox.onchange = function () {
         if (checkbox.checked) {
             checkbox.parentNode.setAttribute('style','text-decoration: line-through;');
+            myLists[checkbox.previousSibling.innerHTML] = true;
+            localStorage.myLists = JSON.stringify(myLists);
         }
         else {
-            checkbox.parentNode.setAttribute('style','text-decoration: none;')
+            checkbox.parentNode.setAttribute('style','text-decoration: none;');
+            myLists[checkbox.previousSibling.innerHTML] = false;
+            localStorage.myLists = JSON.stringify(myLists);
         }
     };
     listItemObj.appendChild(checkbox);
     oList.appendChild(listItemObj);
+
+    if (checkbox.checked) {
+        checkbox.parentNode.setAttribute('style','text-decoration: line-through;');
+        myLists[checkbox.previousSibling.innerHTML] = true;
+    }
+    else {
+        checkbox.parentNode.setAttribute('style','text-decoration: none;');
+        myLists[checkbox.previousSibling.innerHTML] = false;
+    }
 }
+

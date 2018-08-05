@@ -14,7 +14,7 @@ body {
 
 }
 
-.list-item a {
+.list-item {
     color: crimson;
     text-decoration: none;
     margin-right: 5px;
@@ -49,4 +49,9 @@ img {
         height: auto;
         text-align: center;
     }
+}
+
+.delete {
+    float: right;
+    color: red;
 }
