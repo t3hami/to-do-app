@@ -1,11 +1,6 @@
 var myLists = {};
 var oList = document.getElementById('lists');
-var del = document.createElement('a');
-del.appendChild(document.createTextNode('Delete'));
-del.setAttribute('href','Javascript:void(0)');
-del.onclick = function() {
-    //var deletedData = del.previousSibling.previousSibling
-};
+
 console.log(myLists);
 window.onload = function () {
     var mainBody = document.getElementById('main-body');
@@ -36,7 +31,12 @@ window.onload = function () {
     button.setAttribute('type','button');
     button.setAttribute('value','Create');
     button.onclick = function () {
-        addList(input.value);
+        if (input.value !== '')
+            addList(input.value);
+        else if (myLists.hasOwnProperty(input.value))
+            alert('This task is already present!');
+        else
+            alert('Please enter something.');
     };
     mainBody.appendChild(input);
     mainBody.appendChild(button);
@@ -83,6 +83,16 @@ function makeListItem(text, isChecked) {
         }
     };
     listItemObj.appendChild(checkbox);
+    var del = document.createElement('a');
+    del.appendChild(document.createTextNode('Delete'));
+    del.setAttribute('href','Javascript:void(0)');
+    del.setAttribute('class','delete');
+    del.onclick = function() {
+        del.parentNode.parentNode.removeChild(del.parentNode);
+        delete myLists[del.parentNode.childNodes[0].innerHTML];
+        localStorage.myLists = JSON.stringify(myLists);
+    };
+    listItemObj.appendChild(del);
     oList.appendChild(listItemObj);
 
     if (checkbox.checked) {
@@ -94,4 +104,3 @@ function makeListItem(text, isChecked) {
         myLists[checkbox.previousSibling.innerHTML] = false;
     }
 }
-
