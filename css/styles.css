@@ -1,0 +1,52 @@
+body {
+    text-align: center;
+}
+
+#nav-list {
+    list-style: none;
+    text-align: center;
+    border-bottom: solid black 1px;
+}
+
+.list-item {
+    display: inline;
+    font-size: larger;
+
+}
+
+.list-item a {
+    color: crimson;
+    text-decoration: none;
+    margin-right: 5px;
+    padding-left: 5px;
+    border-left: solid black 1px;
+}
+
+.list-item a:hover {
+    font-weight: bold;
+}
+
+#app {
+    border: none;
+    font-weight: bold;
+}
+
+img {
+    text-align: center;
+    float: right;
+
+}
+
+#main-body {
+    width: 800px;
+    text-align: center;
+    margin:0 auto;
+}
+
+@media only screen and (max-width: 600px) {
+    imgs {
+        width: 90%;
+        height: auto;
+        text-align: center;
+    }
+}
