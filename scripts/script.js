@@ -31,12 +31,8 @@ window.onload = function () {
     button.setAttribute('type','button');
     button.setAttribute('value','Create');
     button.onclick = function () {
-        if (input.value !== '')
-            addList(input.value);
-        else if (myLists.hasOwnProperty(input.value))
-            alert('This task is already present!');
-        else
-            alert('Please enter something.');
+        addList(input.value);
+        input.value = '';
     };
     mainBody.appendChild(input);
     mainBody.appendChild(button);
@@ -48,10 +44,11 @@ function addList(list) {
     if (!localStorage.myLists) {
         document.getElementById('main-body').removeChild(document.getElementById('paragraph'));
     }
-    if (myLists[list] === undefined || myLists[list] === false)
+    list = list.replace(/\s+/g,' ').trim();
+    if (myLists[list] === undefined)
         makeListItem(list,false);
     else
-        makeListItem(list, true)
+        alert('Task is already present or empty!');
     localStorage.myLists = JSON.stringify(myLists);
 }
 
@@ -103,4 +100,30 @@ function makeListItem(text, isChecked) {
         checkbox.parentNode.setAttribute('style','text-decoration: none;');
         myLists[checkbox.previousSibling.innerHTML] = false;
     }
+}
+
+function removeExtraSpace(str) {
+    var i;
+    var len = str.length;
+    for (i=0;i<=str.length-1; i++) {
+        console.log(i);
+        if(str[i] == ' ')
+            continue;
+        else {
+            str = str.slice(i);
+            break;
+        }
+    }
+    if (i = str.len)
+        return '';
+    else {
+        for (i=str.length-1;i>-1; i--) {
+            if(str[i] == ' ')
+                continue;
+            else {
+                str = str.slice(0,i+1);
+                break;
+            }
+        }
+        return str;}
 }
