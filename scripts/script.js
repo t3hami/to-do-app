@@ -24,17 +24,25 @@ window.onload = function () {
         mainBody.appendChild(paragraph);
     }
     mainBody.appendChild(document.createElement('br'));
-    mainBody.appendChild(document.createTextNode('New task: '));
+    mainBody.appendChild(document.createElement('b').appendChild(document.createTextNode('TASK: ')));
     var input = document.createElement('input');
     input.setAttribute('type','text');
+    input.setAttribute('id','text-box');
     let button = document.createElement('input');
     button.setAttribute('type','button');
-    button.setAttribute('value','Create');
+    button.setAttribute('value','+');
     button.onclick = function () {
         addList(input.value);
         input.value = '';
     };
+    input.addEventListener("keyup", function(event) {
+        event.preventDefault();
+        if (event.keyCode === 13) {
+            button.click();
+        }
+    });
     mainBody.appendChild(input);
+    mainBody.appendChild(document.createElement('pre').appendChild(document.createTextNode('  ')))
     mainBody.appendChild(button);
     document.getElementById('my-lists').setAttribute('style','font-weight: bold');
     document.getElementById('app').setAttribute('style','font-weight: normal');
@@ -45,7 +53,9 @@ function addList(list) {
         document.getElementById('main-body').removeChild(document.getElementById('paragraph'));
     }
     list = list.replace(/\s+/g,' ').trim();
-    if (myLists[list] === undefined)
+    if (list.toString() === '')
+        alert('Please enter something!');
+    else if (myLists[list] === undefined && list)
         makeListItem(list,false);
     else
         alert('Task is already present or empty!');
@@ -56,7 +66,6 @@ function makeListItem(text, isChecked) {
     myLists[text] = isChecked;
     text = document.createTextNode(text);
     var par = document.createElement('p');
-    par.setAttribute('style','display: inline;');
     par.appendChild(text);
     let listItemObj = document.createElement('li');
     //let link = document.createElement('a');
@@ -69,17 +78,28 @@ function makeListItem(text, isChecked) {
 
     checkbox.onchange = function () {
         if (checkbox.checked) {
-            checkbox.parentNode.setAttribute('style','text-decoration: line-through;');
+            checkbox.parentNode.childNodes[0].setAttribute('style','text-decoration: line-through; display: inline;');
             myLists[checkbox.previousSibling.innerHTML] = true;
             localStorage.myLists = JSON.stringify(myLists);
         }
         else {
-            checkbox.parentNode.setAttribute('style','text-decoration: none;');
+            checkbox.parentNode.childNodes[0].setAttribute('style','text-decoration: none; display: inline;');
             myLists[checkbox.previousSibling.innerHTML] = false;
             localStorage.myLists = JSON.stringify(myLists);
         }
     };
     listItemObj.appendChild(checkbox);
+    var edit = document.createElement('a');
+    edit.setAttribute('href','Javascript:void(0)');
+    edit.appendChild(document.createTextNode('Edit'));
+    edit.setAttribute('class','edit');
+    edit.onclick = function () {
+        document.getElementById('text-box').value = edit.parentNode.childNodes[0].innerHTML;
+        edit.parentNode.parentNode.removeChild(edit.parentNode);
+        delete myLists[edit.parentNode.childNodes[0].innerHTML];
+        localStorage.myLists = JSON.stringify(myLists);
+    };
+    listItemObj.appendChild(edit);
     var del = document.createElement('a');
     del.appendChild(document.createTextNode('Delete'));
     del.setAttribute('href','Javascript:void(0)');
@@ -88,16 +108,17 @@ function makeListItem(text, isChecked) {
         del.parentNode.parentNode.removeChild(del.parentNode);
         delete myLists[del.parentNode.childNodes[0].innerHTML];
         localStorage.myLists = JSON.stringify(myLists);
+		
     };
     listItemObj.appendChild(del);
     oList.appendChild(listItemObj);
 
     if (checkbox.checked) {
-        checkbox.parentNode.setAttribute('style','text-decoration: line-through;');
+        checkbox.parentNode.childNodes[0].setAttribute('style','text-decoration: line-through; display: inline;');
         myLists[checkbox.previousSibling.innerHTML] = true;
     }
     else {
-        checkbox.parentNode.setAttribute('style','text-decoration: none;');
+        checkbox.parentNode.childNodes[0].setAttribute('style','text-decoration: none; display: inline;');
         myLists[checkbox.previousSibling.innerHTML] = false;
     }
 }

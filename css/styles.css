@@ -1,17 +1,22 @@
 body {
     text-align: center;
+    background-color: #222930;
+    color: #E9E9E9;
+    font-family: 'PT Sans', sans-serif;
 }
 
 #nav-list {
     list-style: none;
     text-align: center;
-    border-bottom: solid black 1px;
+    border-bottom: solid #4EB1BA 3px;
+    padding-bottom: 4px;
 }
 
 .list-item {
     display: inline;
     font-size: larger;
-
+    padding: 3px;
+    border-radius: 10px;
 }
 
 .list-item {
@@ -19,11 +24,10 @@ body {
     text-decoration: none;
     margin-right: 5px;
     padding-left: 5px;
-    border-left: solid black 1px;
 }
 
-.list-item a:hover {
-    font-weight: bold;
+.list-item:hover {
+    background-color: #4EB1BA;
 }
 
 #app {
@@ -38,9 +42,10 @@ img {
 }
 
 #main-body {
-    width: 800px;
+    width: 80%;
     text-align: center;
     margin:0 auto;
+    font-size: larger;
 }
 
 @media only screen and (max-width: 600px) {
@@ -53,5 +58,65 @@ img {
 
 .delete {
     float: right;
+    background-color: red;
+    padding: 1px 2px;
+}
+
+.delete:hover {
     color: red;
+    background-color: #E9E9E9;
+}
+
+.edit {
+    background-color: #4EB1BA;
+    padding: 1px 2px;
+}
+
+.edit:hover {
+    color: #4EB1BA;
+    background-color: #E9E9E9
+}
+
+a {
+    color: #E9E9E9;
+    text-decoration: none;
+}
+
+li {
+    margin-bottom: 7px;
+    animation: 1s ease-out 0s 1 slideInFromLeft;
+}
+
+#text-box {
+    width: 60%;
+    margin: auto auto;
+    font-size: large;
+    background-color: #228c96;
+    color: #E9E9E9;
+}
+
+input[type=button] {
+    height: 45px;
+    border-radius: 50%;
+    font-size: 17pt;
+    background-color: #4EB1BA;
+    color: #E9E9E9;
+}
+
+input[type=button]:hover {
+    color: #4EB1BA;
+    background-color: #E9E9E9;
+}
+
+@keyframes slideInFromLeft {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}
+
+b {
+    font-weight: 900;
 }
