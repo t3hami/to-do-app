@@ -114,7 +114,14 @@ function makeListItem(text, isChecked) {
 		
     };
     listItemObj.appendChild(del);
-    oList.appendChild(listItemObj);
+    if (editIndex === -1)
+        oList.appendChild(listItemObj);
+    else {
+        oList.insertBefore(listItemObj, oList.childNodes[editIndex]);
+        editIndex = -1;
+    }
+
+
 
     if (checkbox.checked) {
         checkbox.parentNode.childNodes[0].setAttribute('style','text-decoration: line-through; display: inline;');
