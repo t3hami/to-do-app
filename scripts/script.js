@@ -1,5 +1,6 @@
 var myLists = {};
 var oList = document.getElementById('lists');
+var editIndex = -1;
 
 console.log(myLists);
 window.onload = function () {
@@ -94,6 +95,8 @@ function makeListItem(text, isChecked) {
     edit.appendChild(document.createTextNode('Edit'));
     edit.setAttribute('class','edit');
     edit.onclick = function () {
+        setEditIndex(edit.parentNode);
+        alert(editIndex);
         document.getElementById('text-box').value = edit.parentNode.childNodes[0].innerHTML;
         edit.parentNode.parentNode.removeChild(edit.parentNode);
         delete myLists[edit.parentNode.childNodes[0].innerHTML];
@@ -147,4 +150,15 @@ function removeExtraSpace(str) {
             }
         }
         return str;}
+}
+
+function setEditIndex(node) {
+    var nodes = document.getElementsByTagName('ol')[0].childNodes;
+    for (let i=0; i<nodes.length; i++){
+        if (node == nodes[i]) {
+            editIndex = i;
+            return;
+        }
+    }
+    editIndex = -1;
 }
