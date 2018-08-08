@@ -1,20 +1,19 @@
 var myLists = {};
 var oList = document.getElementById('lists');
 var editIndex = -1;
+var serverData = [];
 
-console.log(myLists);
 window.onload = function () {
     var mainBody = document.getElementById('main-body');
-    console.log(myLists);
-    if (localStorage.myLists) {
-        myLists = JSON.parse(localStorage.myLists);
-        let listItemObj;
-        let list;
-        let i;
-        console.log(myLists);
-        for (i in myLists) {
-            makeListItem(i,myLists[i]);
-            //console.log(i+' '+myLists[i]);
+    var http = new XMLHttpRequest();
+    http.open('GET', 'http://localhost:3000/v1/todoList',false);
+    http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+    http.send();
+    serverData = JSON.parse(http.responseText);
+    console.log(serverData);
+    if (serverData !== []) {
+        for (let i=0; i<serverData.length; i++) {
+            makeListItem(serverData[i]['task'],serverData[i]['isDone']);
         }
     }
     else {
