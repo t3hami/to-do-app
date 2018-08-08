@@ -59,7 +59,7 @@ function addList(list) {
     else if (myLists[list] === undefined && list)
         makeListItem(list,false);
     else
-        alert('Task is already present or empty!');
+        alert('Task is already present!');
     localStorage.myLists = JSON.stringify(myLists);
 }
 
@@ -96,7 +96,7 @@ function makeListItem(text, isChecked) {
     edit.setAttribute('class','edit');
     edit.onclick = function () {
         setEditIndex(edit.parentNode);
-        alert(editIndex);
+        //alert(editIndex);
         document.getElementById('text-box').value = edit.parentNode.childNodes[0].innerHTML;
         edit.parentNode.parentNode.removeChild(edit.parentNode);
         delete myLists[edit.parentNode.childNodes[0].innerHTML];
@@ -111,7 +111,6 @@ function makeListItem(text, isChecked) {
         del.parentNode.parentNode.removeChild(del.parentNode);
         delete myLists[del.parentNode.childNodes[0].innerHTML];
         localStorage.myLists = JSON.stringify(myLists);
-		
     };
     listItemObj.appendChild(del);
     if (editIndex === -1)
