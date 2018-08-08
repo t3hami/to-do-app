@@ -13,7 +13,7 @@ window.onload = function () {
     console.log(serverData);
     if (serverData !== []) {
         for (let i=0; i<serverData.length; i++) {
-            makeListItem(serverData[i]['task'],serverData[i]['isDone']);
+            makeListItem(serverData[i]['task'],serverData[i]['isDone'], serverData[i]['_id']);
         }
     }
     else {
@@ -66,7 +66,7 @@ function addList(list) {
     localStorage.myLists = JSON.stringify(myLists);
 }
 
-function makeListItem(text, isChecked) {
+function makeListItem(text, isChecked, id) {
     myLists[text] = isChecked;
     text = document.createTextNode(text);
     var par = document.createElement('p');
@@ -104,8 +104,9 @@ function makeListItem(text, isChecked) {
         edit.parentNode.parentNode.removeChild(edit.parentNode);
         delete myLists[edit.parentNode.childNodes[0].innerHTML];
         localStorage.myLists = JSON.stringify(myLists);
-        //var http = new XMLHttpRequest();
-        //http.open('DELETE','http://localhost:3000/v1/todoList/',false);
+        var http = new XMLHttpRequest();
+        http.open('DELETE','http://localhost:3000/v1/todoList/'+edit.parentNode._id ,false);
+        http.send();
     };
     listItemObj.appendChild(edit);
     var del = document.createElement('a');
@@ -116,8 +117,12 @@ function makeListItem(text, isChecked) {
         del.parentNode.parentNode.removeChild(del.parentNode);
         delete myLists[del.parentNode.childNodes[0].innerHTML];
         localStorage.myLists = JSON.stringify(myLists);
+        var http = new XMLHttpRequest();
+        http.open('DELETE','http://localhost:3000/v1/todoList/'+del.parentNode._id ,false);
+        http.send();
     };
     listItemObj.appendChild(del);
+    listItemObj._id = id;
     if (editIndex === -1)
         oList.appendChild(listItemObj);
     else {
