@@ -33,6 +33,10 @@ window.onload = function () {
     button.setAttribute('value','+');
     button.onclick = function () {
         addList(input.value);
+        var http = new XMLHttpRequest();   // new HttpRequest instance
+        http.open("POST", "http://localhost:3000/v1/todoList/add");
+        http.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
+        http.send(JSON.stringify({ task: input.value, isDone: false}));
         input.value = '';
     };
     input.addEventListener("keyup", function(event) {
@@ -100,6 +104,8 @@ function makeListItem(text, isChecked) {
         edit.parentNode.parentNode.removeChild(edit.parentNode);
         delete myLists[edit.parentNode.childNodes[0].innerHTML];
         localStorage.myLists = JSON.stringify(myLists);
+        //var http = new XMLHttpRequest();
+        //http.open('DELETE','http://localhost:3000/v1/todoList/',false);
     };
     listItemObj.appendChild(edit);
     var del = document.createElement('a');
